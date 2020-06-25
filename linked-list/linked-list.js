@@ -109,13 +109,14 @@ export class LinkedList {
         } else if (this.tail == current_node) {
           this.tail = before_node;
         }
-        //set head and tail if necessary
+
+        this.length -= 1;
+        break;
       } else {
         current_node = current_node.after;
       }
     }
 
-    this.length -= 1;
     return 0;
   }
 
