@@ -32,24 +32,17 @@ describe('LinkedList', () => {
   test('example', () => {
     const list = new LinkedList();
     list.push(10);
-    // 10
     list.push(20);
-    // 10, 20
     expect(list.pop()).toBe(20);
-    // 10
     list.push(30);
-    // 10, 30
     expect(list.shift()).toBe(10);
-    // 30
     list.unshift(40);
-    // 40, 30
     list.push(50);
-    // 40, 30, 50
     expect(list.shift()).toBe(40);
     expect(list.pop()).toBe(50);
     expect(list.shift()).toBe(30);
   });
-  xtest('can count its elements', () => {
+  test('can count its elements', () => {
     const list = new LinkedList();
     expect(list.count()).toBe(0);
     list.push(10);
@@ -65,11 +58,14 @@ describe('LinkedList', () => {
     expect(list.count()).toBe(1);
     expect(list.pop()).toBe(20);
   });
-  xtest('sets head/tail after shifting last element', () => {
+  test('sets head/tail after shifting last element', () => {
     const list = new LinkedList();
     list.unshift(10);
+    console.log(list);
     list.shift();
+    console.log(list);
     list.push(20);
+    console.log(list)
     expect(list.count()).toBe(1);
     expect(list.shift()).toBe(20);
   });
