@@ -17,8 +17,10 @@ export class LinkedList {
     var node = new Node(val, this.tail, null);
     // update pointer in former tail
     if (this.tail) {
+      node.before = this.tail;
       this.tail.after = node;
     }
+    // update tail
     this.tail = node;
     if (!this.head) {
       this.head = node;
@@ -37,6 +39,7 @@ export class LinkedList {
       this.length -= 1;
       this.tail = null;
       this.head = null;
+      ret = ret.value;
     } else {
       this.tail = ret.before;
       ret = ret.value;
@@ -80,11 +83,39 @@ export class LinkedList {
     if (!this.tail) {
       this.tail = node;
     }
-    this.length = this.length + 1;
+    this.length += 1;
     return node.value;
   }
 
-  delete() {
+  delete(val) {
+    var before_node = null;
+    var after_node = null;
+    var current_node = this.head;
+    for (var i = 0; i < this.length; i++) {
+      if (current_node.value == val) {
+        before_node = current_node.before;
+        after_node = current_node.after;
+
+        if (before_node) {
+          before_node.after = after_node;
+        }
+
+        if (after_node) {
+          after_node.before = before_node;
+        }
+
+        if (this.head == current_node) {
+          this.head = after_node;
+        } else if (this.tail == current_node) {
+          this.tail = before_node;
+        }
+        //set head and tail if necessary
+      } else {
+        current_node = current_node.after;
+      }
+    }
+
+    this.length -= 1;
     return 0;
   }
 
