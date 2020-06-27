@@ -4,6 +4,16 @@ export class Node {
     this.before = before;
     this.after = after;
   }
+
+  update_pointers(before, after) {
+    if (before) {
+      this.before = before;
+    }
+
+    if (after) {
+      this.after = after;
+    }
+  }
 }
 
 export class LinkedList {
@@ -15,10 +25,9 @@ export class LinkedList {
 
   push(val) {
     var node = new Node(val, this.tail, null);
-    // update pointer in former tail
+
     if (this.tail) {
-      node.before = this.tail;
-      this.tail.after = node;
+      this.tail.update_pointers(null, node);
     }
     // update tail
     this.tail = node;
@@ -34,15 +43,13 @@ export class LinkedList {
     var ret = this.tail;
 
     if(this.length == 0 || ret == null) {
-      // don't do anything
     } else if (this.length == 1) {
-      this.length -= 1;
-      this.tail = null;
-      this.head = null;
+      this.empty_list();
       ret = ret.value;
     } else {
       this.tail = ret.before;
       ret = ret.value;
+      this.length -= 1;
     }
 
     return ret;
@@ -52,16 +59,9 @@ export class LinkedList {
     var ret = this.head;
 
     if(this.length == 0 || ret == null) {
-      // do not set head/tail
-    } else if (this.length < 3) {
-      if (this.length == 2) {
-        this.head = this.tail;
-      } else if (this.length == 1) {
-        this.head = null;
-        this.tail = null;
-      }
+    } else if (this.length == 1) {
+      this.empty_list();
       ret = ret.value;
-      this.length -= 1;
     } else {
       this.head = ret.after;
       ret = ret.value;
@@ -76,7 +76,7 @@ export class LinkedList {
     
     // update pointer in former head
     if (this.head) {
-      this.head.before = node;
+      this.head.update_pointers(node);
     }
 
     this.head = node;
@@ -91,17 +91,18 @@ export class LinkedList {
     var before_node = null;
     var after_node = null;
     var current_node = this.head;
+    
     for (var i = 0; i < this.length; i++) {
       if (current_node.value == val) {
         before_node = current_node.before;
         after_node = current_node.after;
 
         if (before_node) {
-          before_node.after = after_node;
+          before_node.update_pointers( null, after_node);
         }
 
         if (after_node) {
-          after_node.before = before_node;
+          after_node.update_pointers(before_node);
         }
 
         if (this.head == current_node) {
@@ -122,5 +123,11 @@ export class LinkedList {
 
   count() {
     return this.length;
+  }
+
+  empty_list() {
+    this.length -= 1;
+    this.head = null;
+    this.tail = null;
   }
 }
