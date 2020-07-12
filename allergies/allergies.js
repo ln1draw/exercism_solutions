@@ -24,7 +24,8 @@ export class Allergies {
       1: 'eggs'
     }
     var map = {};
-    var remainder = num;
+    var remainder = num % 256;
+
     // .keys automatically sorts, hence the .reverse
     var keys = Object.keys(matchable).reverse();
 
